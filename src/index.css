@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --text-xs: 0.875rem;
+  --text-xs--line-height: 1.35rem;
+  --text-sm: 0.975rem;
+  --text-sm--line-height: 1.5rem;
+  --text-base: 1.0625rem;
+  --text-base--line-height: 1.6rem;
+}
+
+@layer base {
+  body {
+    font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+    color: #0F172A;
+    background-color: #F5F3FF;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Plus Jakarta Sans', 'Be Vietnam Pro', system-ui, sans-serif;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  }
+}
+
+/* Vibrant EdTech v2.0 pastel mesh canvas (#F5F3FF with #EFF6FF left and #FDF2F8 right) */
+.vibrant-canvas {
+  background-color: #F5F3FF;
+  background-image:
+    radial-gradient(at 0% 10%, #EFF6FF 0px, transparent 55%),
+    radial-gradient(at 100% 15%, #FDF2F8 0px, transparent 55%),
+    radial-gradient(at 50% 100%, #EEF2FF 0px, transparent 60%);
+}
+
+/* Presentation Mode for auditorium projector */
+.presentation-mode {
+  font-size: 1.125rem;
+}
+
+.presentation-mode h2 {
+  font-size: 1.85rem;
+}
+
+.presentation-mode h3 {
+  font-size: 1.35rem;
+}
+
+.presentation-mode p,
+.presentation-mode li,
+.presentation-mode textarea,
+.presentation-mode input {
+  font-size: 1.08rem;
+  line-height: 1.65;
+}
+
+@media print {
+  body,
+  .vibrant-canvas {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+}

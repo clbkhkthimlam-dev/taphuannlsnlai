@@ -1,0 +1,6 @@
+{
+  "name": "Cổng triển khai NLS & AI THCS 2026",
+  "description": "Quy trình 5 bước soạn KHBD tích hợp NLS – ATM – AI (Trường PTDTNT THCS Him Lam) với dữ liệu xác minh 100%: 13 văn bản pháp lý, 109 chỉ báo NLS THCS (TC1/TC2), 8 nhóm ATM1–ATM8 & SIFT, 207 bài KHTN (55 Có AI), bộ định tuyến 142 tệp 3 chế độ và xuất KHBD chuẩn Word.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
