@@ -1350,6 +1350,152 @@ export const PLC6_AI_LEVELS = [
   'Công cụ tạo một phần sản phẩm',
 ];
 
+export interface EvidencePrepGroup {
+  id: string;
+  groupTitle: string;
+  owner: string;
+  deadline: string;
+  accentHex: string;
+  bgHex: string;
+  items: {
+    id: string;
+    name: string;
+    detail: string;
+    sourceRef?: string;
+  }[];
+}
+
+export const EVIDENCE_PREP_CHECKLIST_GROUPS: EvidencePrepGroup[] = [
+  {
+    id: 'ev-group-1',
+    groupTitle: 'Nhóm 1 — Hồ sơ Tập huấn & Chỉ đạo chuyên môn',
+    owner: 'Ban Giám hiệu & 4 Báo cáo viên',
+    deadline: 'Ngày 22/11/2026',
+    accentHex: '#2563EB',
+    bgHex: '#EFF6FF',
+    items: [
+      {
+        id: 'ev-1-1',
+        name: 'Kế hoạch tập huấn Trường PTDTNT THCS Him Lam & Bộ 13 văn bản căn cứ',
+        detail:
+          'Gồm TT 02/2025, CV 3456, QĐ 2422 (+ Phụ lục 51 trang), CV 5588, CV 6206, CV 7179, KH 37/184/245/247 Sở GD&ĐT TP. Cần Thơ và KH Trường Him Lam.',
+        sourceRef: '1. Phap_ly_va_Chinh_sach/KẾ HOẠCH TẬP HUẤN NLS - ATMTD - AI.pdf',
+      },
+      {
+        id: 'ev-1-2',
+        name: 'Tài liệu trình chiếu & Kịch bản tập huấn 60 phút',
+        detail:
+          'Slide báo cáo tổng hợp, slide tập huấn 60 phút Trường Him Lam và kịch bản 4 chặng (00\'–60\').',
+        sourceRef: '2. Tai_lieu_Tap_huan_va_Bao_cao/KE_HOACH_TRIEN_KHAI_60_PHUT.md',
+      },
+      {
+        id: 'ev-1-3',
+        name: 'Danh sách điểm danh, biên bản tập huấn & sản phẩm thực hành Chặng 3',
+        detail:
+          'Mỗi nhóm môn (Toán, KHTN, Công nghệ) nộp bản nháp 2–3 địa chỉ tích hợp KHDH + 01 mục tiêu (a)+(b)+(c) + 01 hoạt động KHBD phù hợp HS nội trú.',
+      },
+    ],
+  },
+  {
+    id: 'ev-group-2',
+    groupTitle: 'Nhóm 2 — Điều chỉnh KHDH & Khung 12 tiết AI',
+    owner: 'Các Tổ CM & PHT + Tổ Tin học–Công nghệ',
+    deadline: 'Trước 04/12/2026',
+    accentHex: '#0891B2',
+    bgHex: '#ECFEFF',
+    items: [
+      {
+        id: 'ev-2-1',
+        name: 'Kế hoạch dạy học (KHDH) đã bổ sung địa chỉ tích hợp NLS – ATM – AI',
+        detail:
+          'Cập nhật đúng mã chỉ báo TC1/TC2 (ChiBao-NLS.xlsx), nhóm ATM1–ATM8 và 55 bài KHTN có AI, nộp BGH phê duyệt trước 04/12/2026.',
+        sourceRef: '2. Tai_lieu_Tap_huan_va_Bao_cao/RA_SOAT_TICH_HOP_AI_MON_KHTN_6_7_8_9.xlsx',
+      },
+      {
+        id: 'ev-2-2',
+        name: 'Khung phân phối đủ 12 tiết/lớp/năm học giáo dục AI cốt lõi',
+        detail:
+          'PHT phối hợp Tổ Tin học–Công nghệ hoàn thiện bảo đảm yêu cầu CV 5588/BGDĐT-GDPT và QĐ 2422/QĐ-BGDĐT.',
+        sourceRef: '1. Phap_ly_va_Chinh_sach/5588_BGDDT_GDPT.signed.pdf',
+      },
+    ],
+  },
+  {
+    id: 'ev-group-3',
+    groupTitle: 'Nhóm 3 — Hồ sơ KHBD & Học liệu không/ít thiết bị',
+    owner: 'Giáo viên bộ môn (Toán, KHTN, Công nghệ)',
+    deadline: 'Trước mỗi tiết dạy tích hợp',
+    accentHex: '#9333EA',
+    bgHex: '#FAF5FF',
+    items: [
+      {
+        id: 'ev-3-1',
+        name: 'Kế hoạch bài dạy (KHBD) chuẩn CV 5512 có Mục tiêu (a)+(b)+(c)',
+        detail:
+          'Đúng bậc TC1 (L6–7) / TC2 (L8–9), giới hạn 1–2 mã NLS và 1–2 nhóm ATM; vượt qua 2 câu hỏi Gate & 7 tiêu chí PLC.2.',
+      },
+      {
+        id: 'ev-3-2',
+        name: 'Bộ học liệu in giấy cho HS nội trú (Phương án 0/1 thiết bị)',
+        detail:
+          'Hồ sơ tin đồn / bản in câu trả lời AI có cài sẵn lỗi (KHTN 8 Bài 32), phiếu số liệu mô phỏng & giấy kẻ ô vuông (Toán 6 Bài 40), hoặc thẻ phân công 4 vai (Phòng máy).',
+      },
+    ],
+  },
+  {
+    id: 'ev-group-4',
+    groupTitle: 'Nhóm 4 — Minh chứng đánh giá quá trình & Khai báo AI (PLC.4–PLC.6)',
+    owner: 'Giáo viên bộ môn & Học sinh',
+    deadline: 'Trong & ngay sau tiết dạy',
+    accentHex: '#059669',
+    bgHex: '#ECFDF5',
+    items: [
+      {
+        id: 'ev-4-1',
+        name: 'Sản phẩm học tập / Biên bản kiểm chứng của HS',
+        detail:
+          'Biên bản kiểm chứng 4 bước SIFT, phiếu đối chiếu câu trả lời AI với SGK (đánh dấu đúng/sai/thiếu), khuyến nghị ≤ 50 chữ, biểu đồ cột & biện pháp sức khỏe số đo được.',
+      },
+      {
+        id: 'ev-4-2',
+        name: 'Bảng kiểm quan sát quá trình của GV (PLC.5)',
+        detail:
+          'Ghi nhận đóng góp cá nhân trong nhóm, nhận xét theo 3 ý (đã làm được – bằng chứng – bước tiếp theo); KHÔNG lập đầu điểm riêng cho AI/ATM.',
+        sourceRef:
+          '3. Khung_Chuong_Trinh_AI_THCS/Tài liệu cấp Trung học cơ sở/Phu luc chung - Bo KHBD Giao duc AI THCS.docx',
+      },
+      {
+        id: 'ev-4-3',
+        name: 'Phiếu Khai báo sử dụng AI (PLC.6) & Hồ sơ an toàn tâm lí (PLC.4)',
+        detail:
+          'Đủ 5 ý khai báo AI + tích chọn mức dùng AI; dữ liệu HS được ẩn danh; nếu phát sinh sự cố (như Tình huống 8A) lập hồ sơ phối hợp GVCN – TPT Đội – BGH – Cha mẹ – Tổng đài 111.',
+      },
+    ],
+  },
+  {
+    id: 'ev-group-5',
+    groupTitle: 'Nhóm 5 — SHCM Nghiên cứu bài học & Diễn đàn Nội trú',
+    owner: 'Tổ CM, TPT Đội, Quản lý nội trú & BGH',
+    deadline: 'Trong năm học 2026–2027',
+    accentHex: '#EA580C',
+    bgHex: '#FFF7ED',
+    items: [
+      {
+        id: 'ev-5-1',
+        name: 'Hồ sơ tối thiểu 01 chuyên đề SHCM nghiên cứu bài học / Tổ CM',
+        detail:
+          'KHBD minh họa tích hợp NLS/ATM/AI, phiếu dự giờ minh họa, hình ảnh hoạt động HS và biên bản thảo luận rút kinh nghiệm.',
+      },
+      {
+        id: 'ev-5-2',
+        name: 'Hồ sơ diễn đàn "Học sinh nội trú với không gian mạng an toàn" & Kiểm tra nội bộ',
+        detail:
+          'Kế hoạch, kịch bản, hình ảnh diễn đàn (TPT Đội + Quản lý nội trú) và phiếu dự giờ, biên bản kiểm tra nội bộ định kỳ của BGH.',
+      },
+    ],
+  },
+];
+
 // =========================================================================
 // HELPERS: CHUẨN HÓA MÃ NLS, GHÉP MỤC TIÊU (a)+(b)+(c), TẠO DRAFT TỪ 55 BÀI KHTN
 // =========================================================================

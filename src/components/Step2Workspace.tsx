@@ -390,8 +390,8 @@ export function Step2Workspace({
         {/* TAB 2.1: 109 CHỈ BÁO NLS */}
         {activeSubTab === 'nls' && (
           <div className="space-y-3">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-2.5">
-              <div className="md:col-span-5 relative">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-2.5">
+              <div className="lg:col-span-5 relative">
                 <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
@@ -402,13 +402,13 @@ export function Step2Workspace({
                 />
               </div>
 
-              <div className="md:col-span-4">
+              <div className="lg:col-span-3">
                 <select
                   value={domainFilter}
                   onChange={(e) => setDomainFilter(e.target.value)}
                   className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm text-[#0F172A] bg-white focus:outline-none focus:ring-2 focus:ring-[#0891B2]"
                 >
-                  <option value="ALL">Tất cả 6 Miền năng lực (24 NLTP)</option>
+                  <option value="ALL">Tất cả 6 Miền (24 NLTP)</option>
                   {NLS_DOMAINS_6.map((d) => (
                     <option key={d.id} value={d.id}>
                       {d.name}
@@ -417,20 +417,20 @@ export function Step2Workspace({
                 </select>
               </div>
 
-              <div className="md:col-span-3 flex gap-1">
+              <div className="lg:col-span-4 grid grid-cols-4 gap-1.5">
                 {(
                   [
-                    { id: 'AUTO', label: `Tự động (${expectedLevel})` },
+                    { id: 'AUTO', label: `Auto (${expectedLevel})` },
                     { id: 'TC1', label: 'TC1' },
                     { id: 'TC2', label: 'TC2' },
-                    { id: 'ALL', label: '109' },
+                    { id: 'ALL', label: 'Cả 109' },
                   ] as const
                 ).map((lvl) => (
                   <button
                     key={lvl.id}
                     type="button"
                     onClick={() => setLevelOverride(lvl.id)}
-                    className={`flex-1 py-2 px-1.5 rounded-xl text-xs font-bold border whitespace-nowrap cursor-pointer ${
+                    className={`py-2 px-1.5 rounded-xl text-xs font-bold border whitespace-nowrap cursor-pointer ${
                       levelOverride === lvl.id
                         ? 'bg-[#0891B2] text-white border-[#0891B2]'
                         : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'

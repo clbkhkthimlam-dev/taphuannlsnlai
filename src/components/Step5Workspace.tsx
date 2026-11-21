@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ArrowLeft,
   Award,
@@ -6,8 +6,10 @@ import {
   CheckCircle2,
   ClipboardCheck,
   Copy,
+  ExternalLink,
   FileDown,
   FileText,
+  FolderCheck,
   RefreshCw,
   ShieldAlert,
 } from 'lucide-react';
@@ -16,12 +18,15 @@ import { DocLinkList } from './DocumentModals';
 import { copyRichTextForWord } from '../utils/wordExport';
 import {
   CLASS_8A_SCENARIO,
+  EVIDENCE_PREP_CHECKLIST_GROUPS,
   PLC2_GATE_CHECKLIST,
   PLC6_AI_LEVELS,
   STEP_DEFINITIONS,
   escapeHtml,
   type KhbdDraftState,
 } from '../data/v21Content';
+
+const EVIDENCE_STORAGE_KEY = 'himlam_v21_evidence_prep_checked';
 
 interface Step5Props {
   draft: KhbdDraftState;
@@ -46,6 +51,72 @@ export function Step5Workspace({
 }: Step5Props) {
   const stepDef = STEP_DEFINITIONS[4];
   const [copiedPlc6, setCopiedPlc6] = useState(false);
+  const [copiedEvidence, setCopiedEvidence] = useState(false);
+  const [checkedEvidenceIds, setCheckedEvidenceIds] = useState<string[]>(() => {
+    try {
+      const raw = localStorage.getItem(EVIDENCE_STORAGE_KEY);
+      return raw ? (JSON.parse(raw) as string[]) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(EVIDENCE_STORAGE_KEY, JSON.stringify(checkedEvidenceIds));
+    } catch {
+      // Ignore storage quota errors
+    }
+  }, [checkedEvidenceIds]);
+
+  const totalEvidenceItems = EVIDENCE_PREP_CHECKLIST_GROUPS.reduce(
+    (sum, g) => sum + g.items.length,
+    0
+  );
+
+  const toggleEvidenceId = (id: string) => {
+    setCheckedEvidenceIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+
+  const handleCopyEvidenceChecklist = async () => {
+    const plainLines: string[] = [
+      'DANH MỤC TÀI LIỆU & MINH CHỨNG CẦN CHUẨN BỊ TRIỂN KHAI NLS – ATM – AI',
+      'Đơn vị: Trường PTDTNT THCS Him Lam (Thạnh Xuân, TP. Cần Thơ) | Tập huấn: 22/11/2026 | Hạn KHDH: trước 04/12/2026',
+      '',
+    ];
+    const htmlBlocks: string[] = [
+      '<h2>DANH MỤC TÀI LIỆU &amp; MINH CHỨNG CẦN CHUẨN BỊ TRIỂN KHAI NLS – ATM – AI</h2>',
+      '<p><strong>Đơn vị:</strong> Trường PTDTNT THCS Him Lam (Thạnh Xuân, TP. Cần Thơ) · Tập huấn: 22/11/2026 · Hạn KHDH: trước 04/12/2026</p>',
+    ];
+
+    for (const grp of EVIDENCE_PREP_CHECKLIST_GROUPS) {
+      plainLines.push(`${grp.groupTitle} (${grp.owner} — ${grp.deadline})`);
+      htmlBlocks.push(
+        `<p><strong>${escapeHtml(grp.groupTitle)}</strong> <em>(${escapeHtml(grp.owner)} — ${escapeHtml(grp.deadline)})</em></p><ul>`
+      );
+      for (const item of grp.items) {
+        const mark = checkedEvidenceIds.includes(item.id) ? '☑' : '☐';
+        plainLines.push(`  ${mark} ${item.name}: ${item.detail}`);
+        htmlBlocks.push(
+          `<li>${mark} <strong>${escapeHtml(item.name)}:</strong> ${escapeHtml(item.detail)}</li>`
+        );
+      }
+      plainLines.push('');
+      htmlBlocks.push('</ul>');
+    }
+
+    const ok = await copyRichTextForWord(
+      plainLines.join('\n'),
+      `<div style="font-family:'Times New Roman',serif;font-size:13pt;line-height:1.45;">${htmlBlocks.join('')}</div>`
+    );
+    if (ok) {
+      setCopiedEvidence(true);
+      notify('Đã copy trọn bộ Danh mục Tài liệu & Minh chứng chuẩn dán Word!', 'success');
+      window.setTimeout(() => setCopiedEvidence(false), 2000);
+    }
+  };
 
   const totalItems = PLC2_GATE_CHECKLIST.length;
   const checkedCount = draft.checkedChecklistIds.length;
@@ -476,6 +547,107 @@ export function Step5Workspace({
               <FileDown className="w-4 h-4" />
               Xuất trọn bộ KHBD nháp (Bước 1 → Bước 5)
             </button>
+          </div>
+        </div>
+
+        {/* Tool 3: Danh mục Tài liệu & Minh chứng cần chuẩn bị (5 nhóm - 12 đầu mục) */}
+        <div className="rounded-2xl p-4 bg-white border-2 border-emerald-200 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+            <div>
+              <div className="text-sm font-extrabold text-[#065F46] flex items-center gap-2">
+                <FolderCheck className="w-4 h-4 text-[#059669]" />
+                3. Danh mục Tài liệu & Minh chứng cần chuẩn bị ({checkedEvidenceIds.length}/{totalEvidenceItems} đầu mục)
+              </div>
+              <p className="text-xs text-slate-600 mt-0.5">
+                Tích đánh dấu tiến độ chuẩn bị hồ sơ cho Tập huấn 22/11/2026, nộp KHDH trước 04/12/2026 và minh chứng tiết dạy (lưu tự động trên máy).
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => void handleCopyEvidenceChecklist()}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#0F172A] hover:bg-slate-800 text-white text-xs font-bold whitespace-nowrap shrink-0 cursor-pointer"
+            >
+              {copiedEvidence ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+              {copiedEvidence ? 'Đã copy danh mục!' : 'Copy Danh mục Minh chứng (Word)'}
+            </button>
+          </div>
+
+          <div className="space-y-3">
+            {EVIDENCE_PREP_CHECKLIST_GROUPS.map((grp) => (
+              <div
+                key={grp.id}
+                className="rounded-xl p-3.5 border space-y-2.5"
+                style={{
+                  backgroundColor: grp.bgHex,
+                  borderColor: `${grp.accentHex}55`,
+                }}
+              >
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div
+                    className="text-xs sm:text-sm font-extrabold"
+                    style={{ color: grp.accentHex }}
+                  >
+                    {grp.groupTitle}
+                  </div>
+                  <div className="flex flex-wrap items-center gap-1.5 text-[12px] font-bold">
+                    <span className="px-2 py-0.5 rounded-md bg-white/90 text-slate-700 border border-black/10">
+                      {grp.owner}
+                    </span>
+                    <span
+                      className="px-2 py-0.5 rounded-md text-white"
+                      style={{ backgroundColor: grp.accentHex }}
+                    >
+                      {grp.deadline}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  {grp.items.map((item) => {
+                    const checked = checkedEvidenceIds.includes(item.id);
+                    return (
+                      <div
+                        key={item.id}
+                        className={`p-3 rounded-xl bg-white border transition-colors flex flex-col sm:flex-row sm:items-start justify-between gap-2.5 ${
+                          checked ? 'border-emerald-400' : 'border-slate-200'
+                        }`}
+                      >
+                        <label className="flex items-start gap-2.5 cursor-pointer flex-1 min-w-0">
+                          <input
+                            type="checkbox"
+                            checked={checked}
+                            onChange={() => toggleEvidenceId(item.id)}
+                            className="mt-1 w-4 h-4 accent-[#059669] shrink-0"
+                          />
+                          <div className="min-w-0">
+                            <div
+                              className={`text-xs sm:text-sm font-bold leading-snug ${
+                                checked ? 'line-through text-slate-500' : 'text-[#0F172A]'
+                              }`}
+                            >
+                              {item.name}
+                            </div>
+                            <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                              {item.detail}
+                            </p>
+                          </div>
+                        </label>
+                        {item.sourceRef && (
+                          <button
+                            type="button"
+                            onClick={() => void router.openDocument(item.sourceRef!, item.name)}
+                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-[12px] font-bold whitespace-nowrap shrink-0 cursor-pointer self-start"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            Mở tệp mẫu
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

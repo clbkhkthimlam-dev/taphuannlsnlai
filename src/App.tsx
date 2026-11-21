@@ -346,29 +346,29 @@ export default function App() {
             'linear-gradient(135deg, #4F46E5 0%, #7C3AED 45%, #EC4899 85%, #F59E0B 100%)',
         }}
       >
-        <div className="max-w-7xl mx-auto px-3 sm:px-5 py-3 flex flex-wrap items-center justify-between gap-2.5">
+        <div className="max-w-7xl mx-auto px-3 sm:px-5 py-2.5 flex flex-wrap items-center justify-between gap-2">
           {/* Left brand */}
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-xs border border-white/30 flex items-center justify-center shrink-0">
-              <GraduationCap className="w-6 h-6 text-white" />
+            <div className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs border border-white/30 flex items-center justify-center shrink-0">
+              <GraduationCap className="w-5 h-5 text-white" />
             </div>
             <div className="min-w-0">
-              <h1 className="font-extrabold text-sm sm:text-base leading-tight tracking-tight truncate">
-                Cổng Soạn KHBD Tích hợp NLS – ATM – AI
+              <h1 className="font-extrabold text-sm leading-tight tracking-tight truncate">
+                Cổng Soạn KHBD NLS – ATM – AI
               </h1>
-              <p className="text-[13px] sm:text-xs text-white/90 truncate">
-                Trường PTDTNT THCS Him Lam (Thạnh Xuân, TP. Cần Thơ)
+              <p className="text-[12px] text-white/90 truncate">
+                Trường PTDTNT THCS Him Lam · TP. Cần Thơ
               </p>
             </div>
           </div>
 
           {/* Right action buttons */}
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+          <div className="flex flex-wrap items-center gap-1.5">
             {/* Folder Picker button + connection status badge */}
             <button
               type="button"
               onClick={() => void docRouter.pickRootFolder()}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/18 hover:bg-white/28 border border-white/30 text-white text-xs font-bold whitespace-nowrap shrink-0 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white/18 hover:bg-white/28 border border-white/30 text-white text-[13px] font-bold whitespace-nowrap shrink-0 transition-colors cursor-pointer"
               title="Chọn thư mục 0.TONG_HOP_TRIEN_KHAI_NLS_AI_2026 trên máy tính"
             >
               {docRouter.matchedVerifiedCount > 0 ? (
@@ -376,7 +376,7 @@ export default function App() {
               ) : (
                 <FolderOpen className="w-4 h-4 text-amber-200" />
               )}
-              <span className="hidden md:inline">Chọn thư mục tài liệu</span>
+              <span className="hidden xl:inline">Thư mục tài liệu</span>
               <span
                 className={`px-2 py-0.5 rounded-md text-[12px] font-extrabold ${
                   docRouter.matchedVerifiedCount > 0
@@ -385,33 +385,34 @@ export default function App() {
                 }`}
               >
                 {docRouter.matchedVerifiedCount > 0
-                  ? `Đã kết nối ${docRouter.matchedVerifiedCount}/${VERIFIED_FILES_142.length}`
-                  : 'Chưa kết nối'}
+                  ? `${docRouter.matchedVerifiedCount}/${VERIFIED_FILES_142.length} tệp`
+                  : 'Chưa nối'}
               </span>
             </button>
 
             <button
               type="button"
               onClick={() => docRouter.setIsSettingsOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/18 hover:bg-white/28 border border-white/30 text-white text-xs font-bold whitespace-nowrap shrink-0 cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white/18 hover:bg-white/28 border border-white/30 text-white text-[13px] font-bold whitespace-nowrap shrink-0 cursor-pointer"
+              title="Cài đặt Bộ định tuyến 3 chế độ (Thư mục / ./ / URL)"
             >
               <Link2 className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Cài đặt đường dẫn</span>
+              <span className="hidden sm:inline">Đường dẫn</span>
             </button>
 
             <button
               type="button"
               onClick={() => openDrawer('legal')}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/18 hover:bg-white/28 border border-white/30 text-white text-xs font-bold whitespace-nowrap shrink-0 cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white/18 hover:bg-white/28 border border-white/30 text-white text-[13px] font-bold whitespace-nowrap shrink-0 cursor-pointer"
             >
               <BookMarked className="w-3.5 h-3.5" />
-              Kho tra cứu đầy đủ
+              Kho tra cứu
             </button>
 
             <button
               type="button"
               onClick={() => setPresentationMode((v) => !v)}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold whitespace-nowrap shrink-0 cursor-pointer transition-colors ${
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-[13px] font-bold whitespace-nowrap shrink-0 cursor-pointer transition-colors ${
                 presentationMode
                   ? 'bg-[#0F172A] text-amber-300 border-amber-300'
                   : 'bg-white/18 hover:bg-white/28 border-white/30 text-white'
@@ -419,16 +420,16 @@ export default function App() {
               title="Ẩn phần phụ và phóng to chữ cho máy chiếu hội trường"
             >
               <MonitorPlay className="w-3.5 h-3.5" />
-              {presentationMode ? 'Thoát Trình chiếu' : 'Trình chiếu'}
+              {presentationMode ? 'Thoát chiếu' : 'Trình chiếu'}
             </button>
 
             <button
               type="button"
               onClick={() => setIsExportModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#0F172A] hover:bg-slate-800 text-white text-xs font-extrabold whitespace-nowrap shrink-0 shadow-sm cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0F172A] hover:bg-slate-800 text-white text-[13px] font-extrabold whitespace-nowrap shrink-0 shadow-sm cursor-pointer"
             >
               <FileDown className="w-3.5 h-3.5 text-amber-300" />
-              Xuất KHBD nháp
+              Xuất KHBD
             </button>
           </div>
         </div>

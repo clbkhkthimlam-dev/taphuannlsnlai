@@ -218,19 +218,19 @@ export function Step1Workspace({
 
         {/* Form inputs */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-          <div className="md:col-span-3 space-y-1.5">
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide">
+          <div className="md:col-span-5 space-y-1.5">
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide whitespace-nowrap">
               Môn học
             </label>
-            <div className="grid grid-cols-3 gap-1.5">
+            <div className="grid grid-cols-3 gap-2">
               {(['KHTN', 'Toán', 'Công nghệ'] as SubjectType[]).map((subj) => (
                 <button
                   key={subj}
                   type="button"
                   onClick={() => updateDraft({ subject: subj })}
-                  className={`px-2 py-2 rounded-lg text-xs font-bold border transition-colors cursor-pointer ${
+                  className={`min-h-[54px] px-2.5 py-2 rounded-xl text-xs font-bold border transition-colors whitespace-nowrap flex items-center justify-center cursor-pointer ${
                     draft.subject === subj
-                      ? 'bg-[#2563EB] text-white border-[#2563EB]'
+                      ? 'bg-[#2563EB] text-white border-[#2563EB] shadow-xs'
                       : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
                   }`}
                 >
@@ -240,14 +240,14 @@ export function Step1Workspace({
             </div>
           </div>
 
-          <div className="md:col-span-4 space-y-1.5">
+          <div className="md:col-span-7 space-y-1.5">
             <label
               title="Tự động lọc bậc TC1 (Lớp 6–7) hoặc TC2 (Lớp 8–9) ở Bước 2"
               className="block text-xs font-bold text-slate-700 uppercase tracking-wide whitespace-nowrap"
             >
               Khối lớp (lọc TC1/TC2)
             </label>
-            <div className="grid grid-cols-4 gap-1.5">
+            <div className="grid grid-cols-4 gap-2">
               {(['6', '7', '8', '9'] as GradeType[]).map((gr) => {
                 const lvl = getExpectedLevelForGrade(gr);
                 const active = draft.grade === gr;
@@ -256,13 +256,13 @@ export function Step1Workspace({
                     key={gr}
                     type="button"
                     onClick={() => handleGradeChange(gr)}
-                    className={`py-2 px-1 rounded-lg text-xs font-bold border transition-colors cursor-pointer ${
+                    className={`min-h-[54px] py-1.5 px-2 rounded-xl text-xs font-bold border transition-colors flex flex-col items-center justify-center cursor-pointer ${
                       active
-                        ? 'bg-[#2563EB] text-white border-[#2563EB]'
+                        ? 'bg-[#2563EB] text-white border-[#2563EB] shadow-xs'
                         : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
                     }`}
                   >
-                    Lớp {gr}
+                    <span className="whitespace-nowrap">Lớp {gr}</span>
                     <span className={`block text-[12px] font-mono ${active ? 'text-blue-100' : 'text-slate-500'}`}>
                       {lvl}
                     </span>
@@ -272,31 +272,37 @@ export function Step1Workspace({
             </div>
           </div>
 
-          <div className="md:col-span-5 space-y-1.5">
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide">
+          <div className="md:col-span-12 space-y-1.5">
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide whitespace-nowrap">
               Mức độ tích hợp dự kiến
             </label>
-            <div className="grid grid-cols-3 gap-1.5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               {(
                 [
-                  { id: 'nhe', label: 'Tích hợp nhẹ' },
-                  { id: 'bo_phan', label: 'Bộ phận (10–15\')' },
-                  { id: 'du_an', label: 'Nhiệm vụ / Dự án' },
-                ] as { id: IntegrationLevelType; label: string }[]
-              ).map((opt) => (
-                <button
-                  key={opt.id}
-                  type="button"
-                  onClick={() => updateDraft({ integrationLevel: opt.id })}
-                  className={`px-2 py-2 rounded-lg text-xs font-bold border transition-colors cursor-pointer ${
-                    draft.integrationLevel === opt.id
-                      ? 'bg-[#0891B2] text-white border-[#0891B2]'
-                      : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
-                  }`}
-                >
-                  {opt.label}
-                </button>
-              ))}
+                  { id: 'nhe', label: 'Tích hợp nhẹ', sub: '1 câu hỏi gợi mở / lưu ý an toàn' },
+                  { id: 'bo_phan', label: "Bộ phận (10–15')", sub: '1 hoạt động xử lí tình huống (vd HĐ 2.4)' },
+                  { id: 'du_an', label: 'Nhiệm vụ / Dự án', sub: 'Chủ đề môn liên quan trực tiếp' },
+                ] as { id: IntegrationLevelType; label: string; sub: string }[]
+              ).map((opt) => {
+                const active = draft.integrationLevel === opt.id;
+                return (
+                  <button
+                    key={opt.id}
+                    type="button"
+                    onClick={() => updateDraft({ integrationLevel: opt.id })}
+                    className={`px-3.5 py-2.5 rounded-xl text-left border transition-colors cursor-pointer ${
+                      active
+                        ? 'bg-[#0891B2] text-white border-[#0891B2] shadow-xs'
+                        : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
+                    }`}
+                  >
+                    <div className="text-xs font-extrabold whitespace-nowrap">{opt.label}</div>
+                    <div className={`text-[12px] mt-0.5 ${active ? 'text-cyan-50' : 'text-slate-500'}`}>
+                      {opt.sub}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
 

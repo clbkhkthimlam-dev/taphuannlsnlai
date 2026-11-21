@@ -215,7 +215,7 @@ export function Step4Workspace({
             <em>“{SIFT_PRACTICE_STIMULUS}”</em>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
             {SIFT_STEPS_4.map((s, idx) => {
               const active = idx === activeSiftIdx;
               return (
